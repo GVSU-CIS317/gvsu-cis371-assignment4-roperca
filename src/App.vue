@@ -76,10 +76,5 @@
   text-align: center;
 }
 
-/* Transition styles */
-.shrink-explode-enter-active,
-.shrink-explode-leave-active { /* ... */ }
-.shrink-explode-enter,
-.shrink-explode-leave-to { /* ... */ }
 </style>
 

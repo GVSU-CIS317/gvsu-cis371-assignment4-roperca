@@ -5,10 +5,16 @@ import './style.css';
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 
-// Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  // Your Firebase config
-};
+    apiKey: "AIzaSyCYbTxp5BZQ3P44bOIxZlCtGqS-N-gHryU",
+    authDomain: "web-design-hw4.firebaseapp.com",
+    projectId: "web-design-hw4",
+    storageBucket: "web-design-hw4.appspot.com",
+    messagingSenderId: "126286904073",
+    appId: "1:126286904073:web:ecad8b490dc1c9181b71d8",
+    measurementId: "G-7QM752G5Z2"
+  };
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -64,6 +70,36 @@ async function initializeFirestoreData() {
       // ... other groceries items ...
     ];
 
+    async function data_init() {
+        // Reference the 'items' collection in Firestore
+        const itemsCollection = collection(db, "items");
+      
+        // Retrieve all documents from the 'items' collection
+        const itemsSnapshot = await getDocs(itemsCollection);
+      
+        // Check if the collection is empty (no documents found)
+        if (itemsSnapshot.empty) {
+          // If empty, populate it with the predefined items
+          for (const item of itemsToInitialize) {
+            await addDoc(itemsCollection, item);
+          }
+          console.log('Firestore has been initialized with store items.');
+        } else {
+          // If not empty, log that initialization is not needed
+          console.log('Firestore already contains items, initialization skipped.');
+        }
+      }
+
+
+      data_init().then(() => {
+        console.log("Data initialization complete.");
+        process.exit(0); // Exit the process when done (for Node.js)
+      }).catch((error) => {
+        console.error("An error occurred during data initialization:", error);
+        process.exit(1); // Exit with error code (for Node.js)
+      });
+
+      
     // Firestore is empty, populate it with the initial data
     for (const item of itemsToInitialize) {
       await addDoc(itemsCollection, item);
